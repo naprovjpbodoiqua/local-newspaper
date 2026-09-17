@@ -2,14 +2,15 @@
 import Link from 'next/link';
 import { Article } from '@/types/post';
 import { useAdmin } from '@/hooks/useAdmin';
-import { Trash2 } from 'lucide-react';
+import { Edit3, Trash2 } from 'lucide-react';
 
 interface NewsGridProps {
   articles: Article[];
   onDeleteArticle: (id: string) => void;
+  onEditArticle: (article: Article) => void;
 }
 
-export default function NewsGrid({ articles, onDeleteArticle }: NewsGridProps) {
+export default function NewsGrid({ articles, onDeleteArticle, onEditArticle }: NewsGridProps) {
   const { isAdmin } = useAdmin();
 
   if (!articles || articles.length === 0) {
@@ -56,12 +57,14 @@ export default function NewsGrid({ articles, onDeleteArticle }: NewsGridProps) {
           <div className="flex justify-between items-center text-xs text-neutral-500 font-sans">
             <span>Tác giả: {breakingArticle.author}</span>
             {isAdmin && (
-              <button
-                onClick={() => onDeleteArticle(breakingArticle.id)}
-                className="text-green-600 hover:underline flex items-center gap-1"
-              >
-                <Trash2 className="w-3.5 h-3.5" /> Xóa bài
-              </button>
+              <div className="flex items-center gap-3">
+                <button onClick={() => onEditArticle(breakingArticle)} className="text-green-600 hover:underline flex items-center gap-1">
+                  <Edit3 className="w-3.5 h-3.5" /> Sửa bài
+                </button>
+                <button onClick={() => onDeleteArticle(breakingArticle.id)} className="text-green-600 hover:underline flex items-center gap-1">
+                  <Trash2 className="w-3.5 h-3.5" /> Xóa bài
+                </button>
+              </div>
             )}
           </div>
         </div>
@@ -83,12 +86,14 @@ export default function NewsGrid({ articles, onDeleteArticle }: NewsGridProps) {
               <div className="flex justify-between items-center text-[11px] text-neutral-400 font-sans">
                 <span>{item.author}</span>
                 {isAdmin && (
-                  <button
-                    onClick={() => onDeleteArticle(item.id)}
-                    className="text-green-600 hover:underline flex items-center gap-1"
-                  >
-                    <Trash2 className="w-3 h-3" /> Xóa
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <button onClick={() => onEditArticle(item)} className="text-green-600 hover:underline flex items-center gap-1">
+                      <Edit3 className="w-3 h-3" /> Sửa
+                    </button>
+                    <button onClick={() => onDeleteArticle(item.id)} className="text-green-600 hover:underline flex items-center gap-1">
+                      <Trash2 className="w-3 h-3" /> Xóa
+                    </button>
+                  </div>
                 )}
               </div>
             </div>
@@ -121,12 +126,14 @@ export default function NewsGrid({ articles, onDeleteArticle }: NewsGridProps) {
               </Link>
               <p className="text-neutral-600 text-xs line-clamp-2">{item.summary}</p>
               {isAdmin && (
-                <button
-                  onClick={() => onDeleteArticle(item.id)}
-                  className="mt-2 text-xs text-mossgreen-600 hover:underline flex items-center gap-1"
-                >
-                  <Trash2 className="w-3 h-3" /> Xóa
-                </button>
+                <div className="mt-2 flex items-center gap-2">
+                  <button onClick={() => onEditArticle(item)} className="text-xs text-green-600 hover:underline flex items-center gap-1">
+                    <Edit3 className="w-3 h-3" /> Sửa
+                  </button>
+                  <button onClick={() => onDeleteArticle(item.id)} className="text-xs text-green-600 hover:underline flex items-center gap-1">
+                    <Trash2 className="w-3 h-3" /> Xóa
+                  </button>
+                </div>
               )}
             </div>
           ))}

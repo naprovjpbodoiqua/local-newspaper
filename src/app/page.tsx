@@ -9,6 +9,7 @@ import { Article } from '@/types/post';
 export default function HomePage() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [isCreateModalOpen, setCreateModalOpen] = useState(false);
+  const [editingArticle, setEditingArticle] = useState<Article | null>(null);
   const [isPinModalOpen, setPinModalOpen] = useState(false);
 
   const fetchArticles = async () => {
@@ -38,11 +39,22 @@ export default function HomePage() {
         onOpenCreateModal={() => setCreateModalOpen(true)}
         onOpenPinModal={() => setPinModalOpen(true)}
       />
-      <NewsGrid articles={articles} onDeleteArticle={handleDelete} />
+      <NewsGrid
+        articles={articles}
+        onDeleteArticle={handleDelete}
+        onEditArticle={(article) => {
+          setEditingArticle(article);
+          setCreateModalOpen(true);
+        }}
+      />
       
       <CreatePostModal
         isOpen={isCreateModalOpen}
-        onClose={() => setCreateModalOpen(false)}
+        article={editingArticle}
+        onClose={() => {
+          setCreateModalOpen(false);
+          setEditingArticle(null);
+        }}
         onSuccess={fetchArticles}
       />
       <AdminUnlockModal

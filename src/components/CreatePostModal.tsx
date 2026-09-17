@@ -1,14 +1,16 @@
 'use client';
-import { PointerEvent, useState } from 'react';
+import { PointerEvent, useEffect, useState } from 'react';
 import { X } from 'lucide-react';
+import { Article } from '@/types/post';
 
 interface CreatePostModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
+  article?: Article | null;
 }
 
-export default function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePostModalProps) {
+export default function CreatePostModal({ isOpen, onClose, onSuccess, article }: CreatePostModalProps) {
   const [formData, setFormData] = useState({
     title: '',
     category: 'Tech',
@@ -23,6 +25,45 @@ export default function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePo
   });
   const [loading, setLoading] = useState(false);
   const [dragStart, setDragStart] = useState<{ x: number; y: number } | null>(null);
+
+  const isEditing = Boolean(article);
+
+  const openArticle = () => {
+    if (!article) return;
+    setFormData({
+      title: article.title,
+      category: article.category,
+      summary: article.summary,
+      content: article.content,
+      coverImage: article.coverImage,
+      coverPositionX: article.coverPositionX ?? 50,
+      coverPositionY: article.coverPositionY ?? 50,
+      coverScale: article.coverScale ?? 1,
+      author: article.author,
+      isBreaking: article.isBreaking ?? false,
+    });
+  };
+
+  const resetForm = () => {
+    setFormData({
+      title: '',
+      category: 'Tech',
+      summary: "na` na' na na` na",
+      content: 'con meo ngu ngoc dang yeu moah moah',
+      coverImage: 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=800&q=80',
+      coverPositionX: 50,
+      coverPositionY: 50,
+      coverScale: 1,
+      author: 'Na',
+      isBreaking: false,
+    });
+  };
+
+  useEffect(() => {
+    if (isOpen && article) openArticle();
+    if (isOpen && !article) resetForm();
+    setDragStart(null);
+  }, [isOpen, article]);
 
   const handleCoverPointerDown = (event: PointerEvent<HTMLDivElement>) => {
     event.currentTarget.setPointerCapture(event.pointerId);
@@ -49,8 +90,8 @@ export default function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePo
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch('/api/posts', {
-        method: 'POST',
+      const res = await fetch(isEditing ? `/api/posts/${article?.id}` : '/api/posts', {
+        method: isEditing ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
@@ -69,7 +110,7 @@ export default function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePo
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
       <div className="bg-white max-w-2xl w-full p-6 shadow-2xl border border-black max-h-[90vh] overflow-y-auto font-sans">
         <div className="flex justify-between items-center border-b pb-3 mb-4">
-          <h2 className="font-serif text-xl font-bold">Soạn Thảo Bài Báo Mới</h2>
+          <h2 className="font-serif text-xl font-bold">{isEditing ? 'Chỉnh Sửa Bài Báo' : 'Soạn Thảo Bài Báo Mới'}</h2>
           <button onClick={onClose}><X className="w-5 h-5 text-neutral-500" /></button>
         </div>
 
@@ -202,7 +243,7 @@ export default function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePo
               disabled={loading}
               className="px-6 py-2 bg-black text-white font-medium hover:bg-neutral-800 disabled:opacity-50"
             >
-              {loading ? 'Đang xuất bản...' : 'Xuất bản bài báo'}
+              {loading ? 'Đang lưu...' : isEditing ? 'Lưu thay đổi' : 'Xuất bản bài báo'}
             </button>
           </div>
         </form>
