@@ -23,7 +23,7 @@ export default function Header({ onOpenCreateModal, onOpenPinModal }: HeaderProp
         <span className="capitalize">{currentDate}</span>
         <div className="flex items-center gap-3">
           {isAdmin ? (
-            <div className="flex items-center gap-2 text-red-700 font-sans font-medium">
+            <div className="flex items-center gap-2 text-green-700 font-sans font-medium">
               <span className="flex items-center gap-1">
                 <ShieldAlert className="w-3.5 h-3.5" /> Admin Mode
               </span>

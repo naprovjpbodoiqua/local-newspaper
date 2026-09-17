@@ -28,7 +28,7 @@ export default function NewsGrid({ articles, onDeleteArticle }: NewsGridProps) {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-8 border-b border-neutral-300">
         <div className="lg:col-span-7 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-neutral-200 lg:pr-8 pb-6 lg:pb-0 relative">
           <div>
-            <span className="text-red-700 text-xs font-bold font-sans tracking-widest uppercase mb-1 block">
+            <span className="text-green-700 text-xs font-bold font-sans tracking-widest uppercase mb-1 block">
               {breakingArticle.category} • Tiêu điểm
             </span>
             <Link href={`/article/${breakingArticle.id}`}>
@@ -54,7 +54,7 @@ export default function NewsGrid({ articles, onDeleteArticle }: NewsGridProps) {
             {isAdmin && (
               <button
                 onClick={() => onDeleteArticle(breakingArticle.id)}
-                className="text-red-600 hover:underline flex items-center gap-1"
+                className="text-green-600 hover:underline flex items-center gap-1"
               >
                 <Trash2 className="w-3.5 h-3.5" /> Xóa bài
               </button>
@@ -65,11 +65,11 @@ export default function NewsGrid({ articles, onDeleteArticle }: NewsGridProps) {
         <div className="lg:col-span-5 flex flex-col gap-6 divide-y divide-neutral-200">
           {sideArticles.slice(0, 3).map((item) => (
             <div key={item.id} className="pt-4 first:pt-0">
-              <span className="text-xs font-bold font-sans text-neutral-500 uppercase">
+              <span className="text-xs text-green-600 font-bold font-sans text-neutral-500 uppercase">
                 {item.category}
               </span>
               <Link href={`/article/${item.id}`}>
-                <h3 className="font-serif text-lg md:text-xl font-bold leading-snug my-1 hover:underline">
+                <h3 className="font-serif  text-lg md:text-xl font-bold leading-snug my-1 hover:underline">
                   {item.title}
                 </h3>
               </Link>
@@ -81,7 +81,7 @@ export default function NewsGrid({ articles, onDeleteArticle }: NewsGridProps) {
                 {isAdmin && (
                   <button
                     onClick={() => onDeleteArticle(item.id)}
-                    className="text-red-600 hover:underline flex items-center gap-1"
+                    className="text-green-600 hover:underline flex items-center gap-1"
                   >
                     <Trash2 className="w-3 h-3" /> Xóa
                   </button>
@@ -115,7 +115,7 @@ export default function NewsGrid({ articles, onDeleteArticle }: NewsGridProps) {
               {isAdmin && (
                 <button
                   onClick={() => onDeleteArticle(item.id)}
-                  className="mt-2 text-xs text-red-600 hover:underline flex items-center gap-1"
+                  className="mt-2 text-xs text-mossgreen-600 hover:underline flex items-center gap-1"
                 >
                   <Trash2 className="w-3 h-3" /> Xóa
                 </button>

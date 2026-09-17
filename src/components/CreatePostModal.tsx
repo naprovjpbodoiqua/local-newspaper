@@ -15,7 +15,7 @@ export default function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePo
     summary: '',
     content: '',
     coverImage: 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=800&q=80',
-    author: 'Tòa Soạn',
+    author: 'Na',
     isBreaking: false,
   });
   const [loading, setLoading] = useState(false);

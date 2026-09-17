@@ -24,12 +24,12 @@ export default async function ArticlePage({ params }: { params: { id: string } }
     <div className="max-w-3xl mx-auto px-4 py-8 font-serif">
       <Link
         href="/"
-        className="inline-flex items-center gap-1 text-xs font-sans uppercase tracking-widest text-neutral-500 hover:text-black mb-6"
+        className="inline-flex items-center gap-1  text-green-600 text-xs font-sans uppercase tracking-widest text-neutral-500 hover:text-black mb-6"
       >
         <ArrowLeft className="w-3.5 h-3.5" /> Trang chủ
       </Link>
 
-      <span className="block text-red-700 font-sans font-bold text-xs uppercase tracking-widest mb-2">
+      <span className="block text-green-700 font-sans font-bold text-xs uppercase tracking-widest mb-2">
         {article.category}
       </span>
 
@@ -41,7 +41,7 @@ export default async function ArticlePage({ params }: { params: { id: string } }
         {article.summary}
       </p>
 
-      <div className="flex items-center justify-between border-y border-neutral-300 py-3 text-xs font-sans text-neutral-500 mb-8">
+      <div className="flex  text-green-600 items-center justify-between border-y border-neutral-300 py-3 text-xs font-sans text-neutral-500 mb-8">
         <span>Bởi <strong>{article.author}</strong></span>
         <span>{new Date(article.publishedAt).toLocaleDateString('vi-VN')}</span>
       </div>
