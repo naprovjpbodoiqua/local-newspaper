@@ -58,7 +58,7 @@ export default function Header({ onOpenCreateModal, onOpenPinModal }: HeaderProp
           </h1>
         </Link>
         <p className="text-[11px] tracking-widest uppercase text-neutral-500 mt-1">
-          ban tin dau buoi
+          Ban tin thuong nhat
         </p>
       </div>
 

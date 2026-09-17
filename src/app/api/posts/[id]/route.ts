@@ -13,10 +13,11 @@ function getPosts(): Article[] {
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const posts = getPosts();
-  const post = posts.find((p) => p.id === params.id);
+  const post = posts.find((p) => p.id === id);
   if (!post) {
     return NextResponse.json({ error: 'Article not found' }, { status: 404 });
   }
@@ -25,10 +26,11 @@ export async function GET(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   let posts = getPosts();
-  posts = posts.filter((p) => p.id !== params.id);
+  posts = posts.filter((p) => p.id !== id);
   fs.writeFileSync(dataFilePath, JSON.stringify(posts, null, 2));
   return NextResponse.json({ success: true });
 }
