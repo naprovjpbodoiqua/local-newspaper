@@ -25,7 +25,7 @@ export default function Header({ onOpenCreateModal, onOpenPinModal }: HeaderProp
           {isAdmin ? (
             <div className="flex items-center gap-2 text-red-700 font-sans font-medium">
               <span className="flex items-center gap-1">
-                <ShieldAlert className="w-3.5 h-3.5" /> Admin Mode On
+                <ShieldAlert className="w-3.5 h-3.5" /> Admin Mode
               </span>
               <button
                 onClick={onOpenCreateModal}
@@ -54,11 +54,11 @@ export default function Header({ onOpenCreateModal, onOpenPinModal }: HeaderProp
       <div className="max-w-6xl mx-auto px-4 py-6 text-center">
         <Link href="/" className="inline-block">
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight uppercase hover:opacity-90 transition">
-            The Local Chronicle
+            Nhịp Đập Thủ Đô
           </h1>
         </Link>
         <p className="text-[11px] tracking-widest uppercase text-neutral-500 mt-1">
-          Bản Tin Điện Tử Độc Lập & Toàn Cảnh Tri Thức
+          ban tin dau buoi
         </p>
       </div>
 
