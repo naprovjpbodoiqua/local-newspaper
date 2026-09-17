@@ -84,11 +84,15 @@ export default async function ArticlePage({
         <span>{new Date(article.publishedAt).toLocaleDateString('vi-VN')}</span>
       </div>
 
-      <div className="aspect-[16/9] w-full overflow-hidden mb-8">
+      <div className="aspect-[16/9] w-full overflow-hidden bg-white mb-8">
         <img
           src={article.coverImage}
           alt={article.title}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain"
+          style={{
+            objectPosition: 'center',
+            transform: `translate(${50 - (article.coverPositionX ?? 50)}%, ${50 - (article.coverPositionY ?? 50)}%) scale(${article.coverScale ?? 1})`,
+          }}
         />
       </div>
 
@@ -99,7 +103,7 @@ export default async function ArticlePage({
               <img
                 src={src}
                 alt={alt || ''}
-                className="w-full h-auto max-h-[32rem] object-contain"
+                className="block w-full h-auto my-8"
               />
             ),
             a: ({ href, children }) => {

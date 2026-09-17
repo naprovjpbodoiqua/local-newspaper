@@ -6,6 +6,9 @@ export interface Article {
   summary: string;
   content: string;
   coverImage: string;
+  coverPositionX?: number;
+  coverPositionY?: number;
+  coverScale?: number;
   author: string;
   publishedAt: string;
   isBreaking?: boolean;

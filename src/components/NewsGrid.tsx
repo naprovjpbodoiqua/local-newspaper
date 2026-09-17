@@ -41,11 +41,15 @@ export default function NewsGrid({ articles, onDeleteArticle }: NewsGridProps) {
             </p>
           </div>
 
-          <div className="relative aspect-[16/9] w-full overflow-hidden bg-neutral-100 mb-3">
+          <div className="relative aspect-[16/9] w-full overflow-hidden bg-white mb-3">
             <img
               src={breakingArticle.coverImage}
               alt={breakingArticle.title}
-              className="object-cover w-full h-full"
+              className="object-contain w-full h-full"
+              style={{
+                objectPosition: 'center',
+                transform: `translate(${50 - (breakingArticle.coverPositionX ?? 50)}%, ${50 - (breakingArticle.coverPositionY ?? 50)}%) scale(${breakingArticle.coverScale ?? 1})`,
+              }}
             />
           </div>
 
@@ -96,11 +100,15 @@ export default function NewsGrid({ articles, onDeleteArticle }: NewsGridProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-8">
           {sideArticles.slice(3).map((item) => (
             <div key={item.id} className="border-r last:border-r-0 border-neutral-200 pr-4">
-              <div className="aspect-[4/3] w-full overflow-hidden bg-neutral-100 mb-2">
+              <div className="aspect-[4/3] w-full overflow-hidden bg-white mb-2">
                 <img
                   src={item.coverImage}
                   alt={item.title}
-                  className="object-cover w-full h-full"
+                    className="object-contain w-full h-full"
+                    style={{
+                      objectPosition: 'center',
+                      transform: `translate(${50 - (item.coverPositionX ?? 50)}%, ${50 - (item.coverPositionY ?? 50)}%) scale(${item.coverScale ?? 1})`,
+                    }}
                 />
               </div>
               <span className="text-[11px] font-bold font-sans uppercase text-neutral-500">

@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { PointerEvent, useState } from 'react';
 import { X } from 'lucide-react';
 
 interface CreatePostModalProps {
@@ -12,13 +12,36 @@ export default function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePo
   const [formData, setFormData] = useState({
     title: '',
     category: 'Tech',
-    summary: '',
-    content: '',
+    summary: "na` na' na na` na",
+    content: 'con meo ngu ngoc dang yeu moah moah',
     coverImage: 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=800&q=80',
+    coverPositionX: 50,
+    coverPositionY: 50,
+    coverScale: 1,
     author: 'Na',
     isBreaking: false,
   });
   const [loading, setLoading] = useState(false);
+  const [dragStart, setDragStart] = useState<{ x: number; y: number } | null>(null);
+
+  const handleCoverPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setDragStart({ x: event.clientX, y: event.clientY });
+  };
+
+  const handleCoverPointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (!dragStart) return;
+
+    const deltaX = ((event.clientX - dragStart.x) / event.currentTarget.clientWidth) * 100;
+    const deltaY = ((event.clientY - dragStart.y) / event.currentTarget.clientHeight) * 100;
+
+    setFormData((current) => ({
+      ...current,
+      coverPositionX: Math.max(0, Math.min(100, current.coverPositionX - deltaX)),
+      coverPositionY: Math.max(0, Math.min(100, current.coverPositionY - deltaY)),
+    }));
+    setDragStart({ x: event.clientX, y: event.clientY });
+  };
 
   if (!isOpen) return null;
 
@@ -97,6 +120,37 @@ export default function CreatePostModal({ isOpen, onClose, onSuccess }: CreatePo
               value={formData.coverImage}
               onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
               className="w-full border p-2 border-neutral-400 focus:outline-black"
+            />
+            {formData.coverImage && (
+              <div
+                className="aspect-[16/9] w-full overflow-hidden bg-white mt-2 cursor-grab touch-none active:cursor-grabbing"
+                onPointerDown={handleCoverPointerDown}
+                onPointerMove={handleCoverPointerMove}
+                onPointerUp={() => setDragStart(null)}
+                onPointerCancel={() => setDragStart(null)}
+              >
+                <img
+                  src={formData.coverImage}
+                  alt="Xem trước ảnh bìa"
+                  className="w-full h-full object-contain"
+                  draggable={false}
+                  style={{
+                    objectPosition: 'center',
+                    transform: `translate(${50 - formData.coverPositionX}%, ${50 - formData.coverPositionY}%) scale(${formData.coverScale})`,
+                    transformOrigin: 'center',
+                  }}
+                />
+              </div>
+            )}
+            <label className="block font-bold mt-2">Zoom ảnh</label>
+            <input
+              type="range"
+              min="0.5"
+              max="2.5"
+              step="0.05"
+              value={formData.coverScale}
+              onChange={(e) => setFormData({ ...formData, coverScale: Number(e.target.value) })}
+              className="w-full"
             />
           </div>
 
